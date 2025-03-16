@@ -3,6 +3,7 @@ import React from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import Entypo from "@expo/vector-icons/Entypo";
+import Colors from "../style/Colors";
 
 const GameStartScreen = () => {
   return (
@@ -28,7 +29,7 @@ const GameStartScreen = () => {
           name="info"
           size={24}
           color="white"
-          backgroundColor="#3b5998"
+          backgroundColor={Colors.appColorBlue}
         />
       </View>
     </View>
