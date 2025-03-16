@@ -35,7 +35,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.appColor,
-    borderColor: "green",
-    borderWidth: 2,
   },
 });

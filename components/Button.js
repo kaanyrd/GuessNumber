@@ -2,9 +2,9 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
 import Colors from "../style/Colors";
 
-const Button = ({ children }) => {
+const Button = ({ children, pressed }) => {
   return (
-    <Pressable style={styles.button}>
+    <Pressable onPress={pressed} style={styles.button}>
       <Text style={styles.buttonText}>{children}</Text>
     </Pressable>
   );
