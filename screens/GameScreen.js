@@ -1,24 +1,50 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
 import Colors from "../style/Colors";
 import Button from "../components/Button";
 import ErrorModal from "../modals/ErrorModal";
 
-const GameScreen = () => {
-  const [number, setNumber] = useState(null);
-  const [errorModal, setErrorModal] = useState(true);
+const GameScreen = ({
+  setPickedNumbers,
+  pickedNumbers,
+  rolledNumber,
+  setGameStatus,
+  setGameMode,
+}) => {
+  const [number, setNumber] = useState("");
+  const [errorModal, setErrorModal] = useState(null);
 
   const changeNumber = (incomingNumber) => {
     setNumber(incomingNumber);
   };
 
+  useEffect(() =>
+    // burayı click kısmına ekle
+    {
+      if (pickedNumbers.length >= 5) {
+        setGameStatus(false);
+        setGameMode("GameCompleted");
+      } else if (number == rolledNumber) {
+        setGameStatus(true);
+        setGameMode("GameCompleted");
+      }
+    }, [pickedNumbers, number, rolledNumber]);
+
   const onClick = () => {
-    if (isNaN(number) || number?.length > 2 || number === null) {
+    if (
+      number > 20 ||
+      number < 1 ||
+      (isNaN(number) && pickedNumbers.length < 5)
+    ) {
       setErrorModal(true);
-      setNumber(null);
+      setNumber("");
     } else {
-      console.log(number);
+      setPickedNumbers((prev) => [
+        ...prev,
+        { id: Math.random().toString(), pickedNumber: number },
+      ]);
+      setNumber("");
     }
   };
 
@@ -42,12 +68,22 @@ const GameScreen = () => {
           You have to enter an "Valid Number"
         </ErrorModal>
       )}
-      <Text>Go Lower or go higher</Text>
-      <Text>1# 15</Text>
-      <Text>1# 19</Text>
-      <Text>1# 7</Text>
-      <Text>1# 3</Text>
-      <Text>1# 8</Text>
+      {pickedNumbers.length === 0 && (
+        <Text style={styles.infoText}>Guess a number between 0 and 20</Text>
+      )}
+      {pickedNumbers.length > 0 && (
+        <View>
+          <FlatList
+            data={pickedNumbers}
+            keyExtractor={(item) => item.id}
+            renderItem={(data) => (
+              <Text style={{ marginLeft: 4 }}>
+                {data.index + 1}- {data.item.pickedNumber}
+              </Text>
+            )}
+          />
+        </View>
+      )}
       <View style={styles.buttonsContainer}>
         <Button pressed={onClick}>Enter</Button>
         <Button pressed={clearInput}>Clear</Button>
@@ -76,5 +112,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     paddingTop: 8,
+  },
+  infoText: {
+    textAlign: "center",
+    fontWeight: "bold",
+    marginTop: 8,
   },
 });

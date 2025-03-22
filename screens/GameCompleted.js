@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -7,7 +7,15 @@ import Colors from "../style/Colors";
 import MarkedText from "../components/MarkedText";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 
-const GameCompleted = () => {
+const GameCompleted = ({ setGameMode, gameStatus }) => {
+  const startNewGame = () => {
+    setGameMode("GameStart");
+  };
+
+  useEffect(() => {
+    console.log("gamestatus:", gameStatus);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Title>Game Over</Title>
@@ -29,7 +37,7 @@ const GameCompleted = () => {
       <Text>Github</Text>
       <Text>Linkedin</Text>
       <View style={styles.buttonsContainer}>
-        <Button>Play Again</Button>
+        <Button pressed={startNewGame}>Play Again</Button>
         <MaterialIcons style={styles.exitButton} name="exit-to-app" size={24} />
       </View>
     </View>
