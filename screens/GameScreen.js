@@ -8,49 +8,45 @@ import ErrorModal from "../modals/ErrorModal";
 const GameScreen = ({
   setPickedNumbers,
   pickedNumbers,
+  setGameMode,
   rolledNumber,
   setGameStatus,
-  setGameMode,
 }) => {
   const [number, setNumber] = useState("");
-  const [errorModal, setErrorModal] = useState(null);
+  const [errorModal, setErrorModal] = useState(false);
 
-  const changeNumber = (incomingNumber) => {
-    setNumber(incomingNumber);
+  const inputChangeHandler = (inputValue) => {
+    setNumber(inputValue);
   };
 
-  useEffect(() =>
-    // burayı click kısmına ekle
-    {
-      if (pickedNumbers.length >= 5) {
-        setGameStatus(false);
-        setGameMode("GameCompleted");
-      } else if (number == rolledNumber) {
-        setGameStatus(true);
-        setGameMode("GameCompleted");
-      }
-    }, [pickedNumbers, number, rolledNumber]);
-
-  const onClick = () => {
-    if (
-      number > 20 ||
-      number < 1 ||
-      (isNaN(number) && pickedNumbers.length < 5)
-    ) {
+  const onClickHandler = () => {
+    if (number > 20 || number < 1 || isNaN(number)) {
       setErrorModal(true);
       setNumber("");
     } else {
-      setPickedNumbers((prev) => [
-        ...prev,
-        { id: Math.random().toString(), pickedNumber: number },
-      ]);
-      setNumber("");
+      if (number === rolledNumber) {
+        setGameStatus(true);
+        setGameMode("GameCompleted");
+      } else {
+        setPickedNumbers((prevState) => [
+          ...prevState,
+          { id: Math.random().toString(), pickedNumber: number },
+        ]);
+        setNumber("");
+      }
     }
   };
 
-  const clearInput = () => {
-    setNumber(null);
+  const clearInputHandler = () => {
+    setNumber("");
   };
+
+  useEffect(() => {
+    setGameStatus(false);
+    if (pickedNumbers.length >= 5 && rolledNumber !== number) {
+      setGameMode("GameCompleted");
+    }
+  }, [pickedNumbers]);
 
   return (
     <View style={styles.container}>
@@ -60,7 +56,7 @@ const GameScreen = ({
         keyboardType="number-pad"
         placeholder="?"
         value={number}
-        onChangeText={changeNumber}
+        onChangeText={inputChangeHandler}
         maxLength={2}
       />
       {errorModal && (
@@ -85,8 +81,8 @@ const GameScreen = ({
         </View>
       )}
       <View style={styles.buttonsContainer}>
-        <Button pressed={onClick}>Enter</Button>
-        <Button pressed={clearInput}>Clear</Button>
+        <Button pressed={onClickHandler}>Enter</Button>
+        <Button pressed={clearInputHandler}>Clear</Button>
       </View>
     </View>
   );

@@ -6,7 +6,7 @@ import Entypo from "@expo/vector-icons/Entypo";
 import Colors from "../style/Colors";
 
 const GameStartScreen = ({ setGameMode }) => {
-  const startGame = () => {
+  const onStartGameHandler = () => {
     setGameMode("GameScreen");
   };
 
@@ -27,7 +27,7 @@ const GameStartScreen = ({ setGameMode }) => {
         guesses, and try to win!
       </Text>
       <View style={styles.buttonsContainer}>
-        <Button pressed={startGame}>Start Game</Button>
+        <Button pressed={onStartGameHandler}>Start Game</Button>
         <Entypo
           style={styles.icon}
           name="info"
