@@ -50,6 +50,7 @@ export default function App() {
               setGameMode={setGameMode}
               setPickedNumbers={setPickedNumbers}
               gameStatus={gameStatus}
+              setRolledNumber={setRolledNumber}
             />
           )}
         </View>

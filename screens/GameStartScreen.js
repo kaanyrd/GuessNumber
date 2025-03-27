@@ -28,13 +28,13 @@ const GameStartScreen = ({ setGameMode }) => {
       </Text>
       <View style={styles.buttonsContainer}>
         <Button pressed={onStartGameHandler}>Start Game</Button>
-        <Entypo
+        {/* <Entypo
           style={styles.icon}
           name="info"
           size={24}
           color="white"
           backgroundColor={Colors.appColorBlue}
-        />
+        /> */}
       </View>
     </View>
   );

@@ -7,16 +7,27 @@ import Colors from "../style/Colors";
 import MarkedText from "../components/MarkedText";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 
-const GameCompleted = ({ setGameMode, setPickedNumbers, gameStatus }) => {
+const GameCompleted = ({
+  setGameMode,
+  setPickedNumbers,
+  gameStatus,
+  setRolledNumber,
+}) => {
   const newGameHandler = () => {
     setPickedNumbers([]);
+    setRolledNumber(Math.floor(Math.random() * 21).toString());
     setGameMode("GameStart");
   };
 
+  const onCloseHandler = () => {
+    setRolledNumber(Math.floor(Math.random() * 21).toString());
+    BackHandler.exitApp();
+  };
+
   const ExitButton = () => {
-    Alert.alert("Çıkış Yap", "Uygulamadan çıkmak istediğinize emin misiniz?", [
-      { text: "Hayır", style: "cancel" },
-      { text: "Evet", onPress: () => BackHandler.exitApp() },
+    Alert.alert("Exit", "Would you like to close game?", [
+      { text: "No", style: "cancel" },
+      { text: "Yes", onPress: onCloseHandler },
     ]);
   };
 
@@ -26,7 +37,7 @@ const GameCompleted = ({ setGameMode, setPickedNumbers, gameStatus }) => {
       <View style={styles.gameSummary}>
         {gameStatus ? (
           <MarkedText>
-            You Win <Ionicons name="happy-outline" size={24} color="black" />
+            You Win <Ionicons name="happy-outline" size={28} color="black" />
           </MarkedText>
         ) : (
           <MarkedText>
@@ -34,11 +45,6 @@ const GameCompleted = ({ setGameMode, setPickedNumbers, gameStatus }) => {
           </MarkedText>
         )}
       </View>
-      {/* <Text>Your Point is: 70</Text>
-      <Text>
-        Leader Board: 1- 500 point (2 mins ago) 2- 500 point (2 mins ago) 3- 500
-        point (2 mins ago) 4- 500 point (2 mins ago) 5- 500 point (2 mins ago)
-      </Text> */}
       <Text style={styles.developer}>Developed by Kaan Yardımcı</Text>
       <View style={styles.buttonsContainer}>
         <Button pressed={newGameHandler}>Play Again</Button>
