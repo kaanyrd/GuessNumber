@@ -14,7 +14,6 @@ const GameScreen = ({
 }) => {
   const [number, setNumber] = useState("");
   const [errorModal, setErrorModal] = useState(false);
-  const [updown, setUpDown] = useState("");
 
   const inputChangeHandler = (inputValue) => {
     setNumber(inputValue);
@@ -34,11 +33,6 @@ const GameScreen = ({
           { id: Math.random().toString(), pickedNumber: number },
         ]);
         setNumber("");
-        if (number < rolledNumber) {
-          setUpDown("Go higher!");
-        } else if (number > rolledNumber) {
-          setUpDown("Go lower!");
-        }
       }
     }
   };
@@ -70,9 +64,7 @@ const GameScreen = ({
           You have to enter an "Valid Number"
         </ErrorModal>
       )}
-      <Text style={styles.infoText}>
-        {pickedNumbers.length === 0 && "Guess a number between 0 and 20"}
-      </Text>
+      <Text style={styles.infoText}>Guess a number between 0 and 20</Text>
       {pickedNumbers.length > 0 && (
         <View style={styles.pickedNumbersContainer}>
           <FlatList
